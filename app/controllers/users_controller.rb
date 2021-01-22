@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   # skip_filter other access restrictions...
-  before_filter :restrict_access, only: [:aws_auth]
+  before_action :restrict_access, only: [:aws_auth]
 
   # (...)
 
