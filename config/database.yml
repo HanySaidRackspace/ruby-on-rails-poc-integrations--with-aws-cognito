@@ -16,22 +16,16 @@ development:
   pool: 5
   username: postgres
   password: postgres
-
-test: &TEST
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test: &test
   adapter: postgresql
-  encoding: utf8
-  database: project_test
-  pool: 5
-  username: postgres
-  password: postgres
+  database: harrystest<%= ENV["CIRCLE_NODE_INDEX"] %>
+  host: <%= ENV.fetch("PG_HOST", "localhost") %>
+  port: <%= ENV.fetch("PG_PORT_95", "5432") %>
 
 production:
   adapter: postgresql
-  encoding: utf8
-  database: d5meludsrtee93
-  pool: 5
-  username: yxfxnqhkxatlyq
-  password: 623d57c78a1b7e834140322a773219ee869e3d85ec6c9c83021f47a94b8fb97e
-
-cucumber:
-  <<: *TEST
+  database: cognito-poc-rails-devise
+  host: localhost
