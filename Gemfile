@@ -56,9 +56,3 @@ group :development do
   gem 'web-console', '>= 3.3.0'
 end
 
-group :web_production, :web_staging do
-  gem "sprockets-redirect"
-  gem "rack-utf8_sanitizer"
-  gem "rails_12factor" # Heroku
-
-end
