@@ -7,7 +7,7 @@ module Devise
       def authenticate!
         if params[:user]
           client = Aws::CognitoIdentityProvider::Client.new
-          byebug
+          #byebug
           begin
 
             resp = client.initiate_auth({
