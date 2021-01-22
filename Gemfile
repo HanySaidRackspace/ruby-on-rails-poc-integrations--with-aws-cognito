@@ -34,6 +34,10 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 gem 'devise'
 gem 'aws-sdk', '~> 3'
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
 source 'https://rubygems.org'
 
 group :development, :test do
@@ -52,13 +56,9 @@ group :development do
   gem 'web-console', '>= 3.3.0'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
 group :web_production, :web_staging do
   gem "sprockets-redirect"
   gem "rack-utf8_sanitizer"
   gem "rails_12factor" # Heroku
-  # For assets
-  gem "uglifier"
+
 end
