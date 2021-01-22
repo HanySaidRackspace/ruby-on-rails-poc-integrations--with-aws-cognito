@@ -1,3 +1,4 @@
+=begin
 class Users::PasswordsController < Devise::PasswordsController
 
   skip_before_action :assert_reset_token_passed
@@ -88,4 +89,4 @@ class Users::PasswordsController < Devise::PasswordsController
 
   end
 
-end
+end=end
