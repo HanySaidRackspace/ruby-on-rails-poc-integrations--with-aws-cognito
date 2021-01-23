@@ -88,4 +88,21 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  Rails.application.routes.default_url_options[:host] = "cognito-poc-rails-devise-harry.herokuapp.com"
+  Rails.application.routes.default_url_options[:protocol] = "https"
+
+  # Setup AWS SES for sending "admin" email reports directly.
+  # Note: all user transactional email goes out through CRM services.
+  ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.smtp_settings = {
+    user_name: "hany.test.smtp.2021@gmail.com",
+    password: "test_smtp@01",
+    domain: ENV["SMTP_DOMAIN"] || "gmail.com",
+    address: "smtp.gmail.com",
+    port: 587,
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
+
 end
