@@ -89,7 +89,7 @@ class  Users::PasswordsController < Devise::PasswordsController
         redirect_to edit_user_password_path(reset_password_token: params[:user][:reset_password_token])
 
       end
-
+      print "*************** AWS  update Done  PasswordsController  ***********************\n"
     end
 
   end
