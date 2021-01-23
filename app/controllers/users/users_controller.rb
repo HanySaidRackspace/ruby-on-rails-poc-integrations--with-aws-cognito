@@ -34,11 +34,5 @@ class UsersController < ApplicationController
 
   # (...)
 
-  private
-
-  def restrict_access
-    head :unauthorized unless params[:access_token] =="IhDqE1QyEBmZxPwsUdWPEpTpmzloa6RE7rEsWiYa80h2YIwiEsh
-ampBgQJkL67RKdjayGFlNN9ezmKLLa/XnPQ=="
-  end
 
 end
