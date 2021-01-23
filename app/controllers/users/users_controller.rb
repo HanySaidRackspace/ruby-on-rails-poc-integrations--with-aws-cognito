@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   # skip_filter other access restrictions...
-  # before_action :restrict_access, only: [:aws_auth]
+  before_action :restrict_access, only: [:aws_auth]
   skip_before_action :verify_authenticity_token
 
   # (...)
@@ -38,8 +38,7 @@ class UsersController < ApplicationController
    private
 
   def restrict_access
-    head :unauthorized unless params[:access_token] =="IhDqE1QyEBmZxPwsUdWPEpTpmzloa6RE7rEsWiYa80h2YIwiEsh
-ampBgQJkL67RKdjayGFlNN9ezmKLLa/XnPQ=="
+    head :unauthorized unless params[:access_token] =="IhDqE1QyEBmZxPwsUdWPEpTpmzloa6RE7rEsWiYa80h2YIwiEsh"
   end
 
 end
