@@ -100,7 +100,7 @@ Rails.application.configure do
     password: "test_smtp@01",
     domain: ENV["SMTP_DOMAIN"] || "gmail.com",
     address: "smtp.gmail.com",
-    port: 587,
+    port: 465,
     authentication: :plain,
     enable_starttls_auto: true
   }
