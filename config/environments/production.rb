@@ -1,3 +1,6 @@
+require 'tlsmail'
+Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -91,7 +94,6 @@ Rails.application.configure do
 
   Rails.application.routes.default_url_options[:host] = "cognito-poc-rails-devise-harry.herokuapp.com"
   Rails.application.routes.default_url_options[:protocol] = "https"
-  Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
 
   # Setup AWS SES for sending "admin" email reports directly.
   # Note: all user transactional email goes out through CRM services.
