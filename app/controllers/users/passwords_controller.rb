@@ -94,6 +94,7 @@ class  Users::PasswordsController < Devise::PasswordsController
 
       end
       print "*************** AWS  update Done  PasswordsController  ***********************\n"
+      redirect_to login_path, :notice => 'password has been changed on AWS Cognito '
     end
 
   end
