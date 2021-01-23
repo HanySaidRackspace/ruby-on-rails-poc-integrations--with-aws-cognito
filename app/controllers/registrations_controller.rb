@@ -6,7 +6,7 @@ class RegistrationsController < Devise::RegistrationsController
     account_update_params = devise_parameter_sanitizer.sanitize(:account_update)
     @user = User.find(current_user.id)
 
-     if !needs_password?
+     if needs_password?
       successfully_updated = @user.update_with_password(account_update_params)
     else
       client = Aws::CognitoIdentityProvider::Client.new
@@ -29,13 +29,16 @@ class RegistrationsController < Devise::RegistrationsController
                                               proposed_password: params[:user][:password_confirmation] ,
                                               access_token: initiateAuthResp.authentication_result.access_token
                                             })
+
       print "******************** change_password  ****************************"
       print  changePasswordResp
+
+      successfully_updated = @user.update_attributes(account_update_params)
 
       account_update_params.delete('password')
       account_update_params.delete('password_confirmation')
       account_update_params.delete('current_password')
-      successfully_updated = @user.update_attributes(account_update_params)
+
     end
 
     if successfully_updated
