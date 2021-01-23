@@ -100,8 +100,9 @@ Rails.application.configure do
     password: "test_smtp@01",
     address: "smtp.gmail.com",
     port: 587,
-    authentication: :plain,
-    enable_starttls_auto: true
+    tls: true ,
+    authentication:plain,
+    enable_starttls_auto: true,
   }
 
 end
