@@ -41,6 +41,10 @@ module Devise
                 success!(user)
               else
                 user = User.create(email: email, password: password, password_confirmation: password)
+                pritn "\n"
+                pritn user.id
+                print "*************** create ***********************\n"
+
                 if user.valid?
                   success!(user)
                 else
