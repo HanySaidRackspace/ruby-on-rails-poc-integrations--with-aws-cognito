@@ -37,7 +37,7 @@ class UsersController < ApplicationController
   private
 
   def restrict_access
-    head :unauthorized unless params[:access_token] == TOKEN_AUTH_OF_YOUR_CHOICE
+    head :unauthorized unless params[:access_token] =="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9"
   end
 
 end
