@@ -76,15 +76,19 @@ class  Users::PasswordsController < Devise::PasswordsController
 
         session.delete :reset_password_email
 
+        print "*************** AWS reset_password_email  PasswordsController  ***********************\n"
+
         redirect_to unauthenticated_root_path, notice: I18n.t("devise.notices.password_changed")
 
-      rescue Aws::CognitoIdentityProvider::Errors::InvalidPasswordException => e
+        print "*************** AWS redirect_to  PasswordsController  ***********************\n"
 
+      rescue Aws::CognitoIdentityProvider::Errors::InvalidPasswordException => e
+        print "*************** AWS InvalidPasswordException  PasswordsController  ***********************\n"
         flash[:alert] = e.to_s
         redirect_to edit_user_password_path(reset_password_token: params[:user][:reset_password_token])
 
       rescue
-
+        print "*************** AWS  update unknown_error  PasswordsController  ***********************\n"
         flash[:alert] = I18n.t("devise.errors.unknown_error")
         redirect_to edit_user_password_path(reset_password_token: params[:user][:reset_password_token])
 
