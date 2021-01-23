@@ -62,7 +62,7 @@ class  Users::PasswordsController < Devise::PasswordsController
     else
       print "*************** 1  - update PasswordsController  ***********************\n"
       begin
-        print "*************** 1  - update PasswordsController  ***********************\n"
+
         client = Aws::CognitoIdentityProvider::Client.new
         resp = client.confirm_forgot_password({
                                                 client_id: ENV["AWS_COGNITO_CLIENT_ID"],
@@ -70,6 +70,9 @@ class  Users::PasswordsController < Devise::PasswordsController
                                                 username: session[:reset_password_email],
                                                 password: params[:user][:password]
                                               })
+
+
+        print "*************** AWS call update PasswordsController  ***********************\n"
 
         session.delete :reset_password_email
 
