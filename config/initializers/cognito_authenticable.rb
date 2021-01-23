@@ -8,18 +8,34 @@ module Devise
         if params[:user]
           client = Aws::CognitoIdentityProvider::Client.new
           #byebug
+
+          print "*************** 1- CognitoIdentityProvider ***********************\n"
           begin
+            print "*************** 2- CognitoIdentityProvider ***********************\n"
+            print "*************** User Name : *********************** \n"
+            print email
+            print "*************** Password  : *********************** \n"
+            print password
+
+            print "*************** 2- CognitoIdentityProvider ***********************\n"
+            print ENV["AWS_COGNITO_CLIENT_ID"]
 
             resp = client.initiate_auth({
                                           client_id: ENV["AWS_COGNITO_CLIENT_ID"],
-                                          auth_flow: "USER_PASSWORD_AUTH",
+                                          auth_flow: "USER_PASSWORD_AUTH" ,
                                           auth_parameters: {
                                             "USERNAME" => email,
                                             "PASSWORD" => password
                                           }
                                         })
+            #rescue => ex
+            #Rails.logger.error ex.message
+
+            print "*************** 3- start CognitoIdentityProvider ***********************\n"
 
             if resp
+              print "*************** 4- if  CognitoIdentityProvider ***********************\n"
+
               user = User.where(email: email).try(:first)
               if user
                 success!(user)
@@ -32,6 +48,7 @@ module Devise
                 end
               end
             else
+              print "*************** 4- Else End CognitoIdentityProvider ***********************\n"
               return fail(:unknow_cognito_response)
             end
 
