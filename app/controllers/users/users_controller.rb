@@ -1,3 +1,5 @@
+require 'aws-sdk'
+
 class UsersController < ApplicationController
 
   # skip_filter other access restrictions...
@@ -15,12 +17,12 @@ class UsersController < ApplicationController
       email: nil,
       authentication_hash: nil
     }
-    user = User.where(email: [:email]).first
+    user = User.where(email: aws_auth_params[:email]).first
 
     if user
       answer = user.as_json(only: defaults.keys)
       answer[:user_exists] = true
-      answer[:success] = user.valid_password?([:password])
+      answer[:success] = user.valid_password?(aws_auth_params[:password])
     else
       answer = defaults
       answer[:success] = false
