@@ -1,4 +1,4 @@
-class PasswordsController < Devise::PasswordsController
+class  Users::PasswordsController < Devise::PasswordsController
 
   skip_before_action :assert_reset_token_passed
 
@@ -60,7 +60,7 @@ class PasswordsController < Devise::PasswordsController
       redirect_to new_user_password_path
 
     else
-
+      print "*************** 1  - update PasswordsController  ***********************\n"
       begin
         print "*************** 1  - update PasswordsController  ***********************\n"
         client = Aws::CognitoIdentityProvider::Client.new
