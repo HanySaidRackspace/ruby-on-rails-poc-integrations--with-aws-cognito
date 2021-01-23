@@ -1,8 +1,9 @@
-class Users::PasswordsController < Devise::PasswordsController
+class PasswordsController < Devise::PasswordsController
 
   skip_before_action :assert_reset_token_passed
 
   def create
+    print "*************** 1 - create PasswordsController  ***********************\n"
 
     raise ArgumentError, "Unexpected block given for requested action: #{params.inspect}" if block_given?
 
@@ -28,6 +29,7 @@ class Users::PasswordsController < Devise::PasswordsController
   end
 
   def edit
+    print "*************** 1 - edit PasswordsController  ***********************\n"
 
     gon.flash_notice = I18n.t("devise.notices.change_password_email")
     super
@@ -35,6 +37,7 @@ class Users::PasswordsController < Devise::PasswordsController
   end
 
   def update
+    print "***************  1- update PasswordsController  ***********************\n"
 
     if params[:user][:password].blank?
 
@@ -59,7 +62,7 @@ class Users::PasswordsController < Devise::PasswordsController
     else
 
       begin
-
+        print "*************** 1  - update PasswordsController  ***********************\n"
         client = Aws::CognitoIdentityProvider::Client.new
         resp = client.confirm_forgot_password({
                                                 client_id: ENV["AWS_COGNITO_CLIENT_ID"],
