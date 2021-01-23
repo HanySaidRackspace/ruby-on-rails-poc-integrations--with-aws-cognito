@@ -1,4 +1,4 @@
-Rails.application.routes.default_url_options[:host] = "XXX"
+Rails.application.routes.default_url_options[:host] = "cognito-poc-rails-devise-harry.herokuapp.com"
 
 Rails.application.routes.draw do
   devise_for :users
