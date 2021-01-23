@@ -91,7 +91,7 @@ class  Users::PasswordsController < Devise::PasswordsController
         print "*************** AWS  update unknown_error  PasswordsController  ***********************\n"
         flash[:alert] = I18n.t("devise.errors.unknown_error")
         #redirect_to edit_user_password_path(reset_password_token: params[:user][:reset_password_token])
-        user.password = password
+
         redirect_to new_user_session_path  , :notice => 'password has been changed on AWS Cognito '
 
       end
