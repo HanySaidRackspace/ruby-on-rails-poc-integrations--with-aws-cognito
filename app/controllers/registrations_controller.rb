@@ -3,13 +3,11 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     print "*************** create RegistrationsController  ***********************\n"
 
-    userPassword = params.require(:user).permit:password
-    userEmail =  params.require(:user).permit:email
 
-
+    print "******************** email *********************************\n"
+    print params[:user][:password]
+    print params[:user][:email]
     build_resource(sign_up_params)
-
-
 
     print "*************** create not saved RegistrationsController  ***********************\n"
 
@@ -24,25 +22,15 @@ class RegistrationsController < Devise::RegistrationsController
         set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
 
-        client = Aws::CognitoIdentityProvider::Client.new
+        client =Aws::CognitoIdentityProvider::Client.new
 
-        newUser = client.admin_create_user({            user_pool_id: "us-east-1_2GP7Ij2oK" ,
-                                                       username: userEmail.to_s,
-                                                       force_alias_creation:true,
-                                                       user_attributes: [
-                                                         {
-                                                           name: "email",
-                                                           value: userEmail.to_s,
-                                                         },
-                                                       ]
-                                                     })
 
-        setPassword = client.admin_set_user_password({
-                                                  user_pool_id: "us-east-1_2GP7Ij2oK" ,
-                                                  password:  userPassword.to_s,
-                                                  username: userEmail.to_s,
-                                                  permanent:true
-                                                })
+
+        newUser = client.sign_up({ client_id: ENV["AWS_COGNITO_CLIENT_ID"] ,
+                                                       username: params[:user][:email],
+                                                       password: params[:user][:password]
+                                                        })
+
 
         respond_with resource, location: after_sign_up_path_for(resource)
       else
