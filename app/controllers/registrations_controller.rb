@@ -1,5 +1,61 @@
 class RegistrationsController < Devise::RegistrationsController
 
+  def create
+    print "*************** create RegistrationsController  ***********************\n"
+
+    userPassword = params.require(:user).permit:password
+    userEmail =  params.require(:user).permit:email
+
+
+    build_resource(sign_up_params)
+
+
+
+    print "*************** create not saved RegistrationsController  ***********************\n"
+
+
+    resource.save
+
+    print "*************** create saved RegistrationsController  ***********************\n"
+
+    yield resource if block_given?
+    if resource.persisted?
+      if resource.active_for_authentication?
+        set_flash_message! :notice, :signed_up
+        sign_up(resource_name, resource)
+
+        client = Aws::CognitoIdentityProvider::Client.new
+
+        newUser = client.admin_create_user({            user_pool_id: "us-east-1_2GP7Ij2oK" ,
+                                                       username: userEmail.to_s,
+                                                       force_alias_creation:true,
+                                                       user_attributes: [
+                                                         {
+                                                           name: "email",
+                                                           value: userEmail.to_s,
+                                                         },
+                                                       ]
+                                                     })
+
+        setPassword = client.admin_set_user_password({
+                                                  user_pool_id: "us-east-1_2GP7Ij2oK" ,
+                                                  password:  userPassword.to_s,
+                                                  username: userEmail.to_s,
+                                                  permanent:true
+                                                })
+
+        respond_with resource, location: after_sign_up_path_for(resource)
+      else
+        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+        expire_data_after_sign_in!
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
+      end
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
+  end
 
   def update
 
@@ -21,6 +77,7 @@ class RegistrationsController < Devise::RegistrationsController
                                       "PASSWORD" => params[:user][:current_password]
                                     }
                                   })
+
       print "******************** get token ****************************"
 
       print initiateAuthResp.authentication_result.access_token
