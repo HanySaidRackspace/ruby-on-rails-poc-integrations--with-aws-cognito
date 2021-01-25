@@ -46,7 +46,7 @@ class RegistrationsController < Devise::RegistrationsController
       successfully_updated = @user.update_with_password(account_update_params)
     else
       client = Aws::CognitoIdentityProvider::Client.new
-
+      begin
       initiateAuthResp = client.initiate_auth({
                                     client_id: ENV["AWS_COGNITO_CLIENT_ID"],
                                     auth_flow: "USER_PASSWORD_AUTH" ,
@@ -55,6 +55,8 @@ class RegistrationsController < Devise::RegistrationsController
                                       "PASSWORD" => params[:user][:current_password]
                                     }
                                   })
+      rescue => ex
+       print ex
 
       print "******************** get token ****************************"
 
