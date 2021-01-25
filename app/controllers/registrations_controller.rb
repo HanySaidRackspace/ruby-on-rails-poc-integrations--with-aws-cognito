@@ -42,42 +42,40 @@ class RegistrationsController < Devise::RegistrationsController
     account_update_params = devise_parameter_sanitizer.sanitize(:account_update)
     @user = User.find(current_user.id)
 
-     if needs_password?
-      successfully_updated = @user.update_with_password(account_update_params)
-    else
+    if needs_password?
       client = Aws::CognitoIdentityProvider::Client.new
-      begin
+
       initiateAuthResp = client.initiate_auth({
-                                    client_id: ENV["AWS_COGNITO_CLIENT_ID"],
-                                    auth_flow: "USER_PASSWORD_AUTH" ,
-                                    auth_parameters: {
-                                      "USERNAME" => params[:user][:email],
-                                      "PASSWORD" => params[:user][:current_password]
-                                    }
-                                  })
-      rescue => ex
-       print ex
+                                                client_id: ENV["AWS_COGNITO_CLIENT_ID"],
+                                                auth_flow: "USER_PASSWORD_AUTH" ,
+                                                auth_parameters: {
+                                                  "USERNAME" => params[:user][:email],
+                                                  "PASSWORD" => params[:user][:current_password]
+                                                }
+                                              })
 
       print "******************** get token ****************************"
 
-      print initiateAuthResp.authentication_result.access_token
+      print initiateAuthResp
+
+
+      #print initiateAuthResp.authentication_result.access_token
 
       print "******************** token  end print  ****************************"
 
       changePasswordResp = client.change_password({         previous_password: params[:user][:current_password],
-                                              proposed_password: params[:user][:password_confirmation] ,
-                                              access_token: initiateAuthResp.authentication_result.access_token
-                                            })
+                                                            proposed_password: params[:user][:password_confirmation] ,
+                                                            access_token: initiateAuthResp.authentication_result.access_token
+                                                  })
 
-      print "******************** change_password  ****************************"
-      print  changePasswordResp
-
-      successfully_updated = @user.update_attributes(account_update_params)
-
+      successfully_updated = @user.update_with_password(account_update_params)
+    else
       account_update_params.delete('password')
       account_update_params.delete('password_confirmation')
       account_update_params.delete('current_password')
-       end
+      successfully_updated = @user.update_attributes(account_update_params)
+    end
+
     if successfully_updated
       set_flash_message :notice, :updated
       sign_in @user, :bypass => true
@@ -86,7 +84,7 @@ class RegistrationsController < Devise::RegistrationsController
       render 'edit'
     end
   end
-  end
+
   private
 
   def needs_password?
