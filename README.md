@@ -1,0 +1,1 @@
+# ruby-on-rails-poc-integrations--with-aws-cognito
