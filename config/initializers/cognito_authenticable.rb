@@ -6,6 +6,7 @@ module Devise
     class CognitoAuthenticatable < Authenticatable
       def authenticate!
         if params[:user]
+          session[:cognito_error_message] =nil
           client = Aws::CognitoIdentityProvider::Client.new
           #byebug
           print "*************** CognitoAuthenticatable   ***********************\n"
