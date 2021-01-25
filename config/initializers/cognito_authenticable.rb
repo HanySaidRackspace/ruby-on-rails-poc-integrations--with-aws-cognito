@@ -27,6 +27,8 @@ module Devise
 
             if resp
 
+              print resp
+
               session[:is_new_user] = false
 
               user = User.where(email: email).try(:first)
