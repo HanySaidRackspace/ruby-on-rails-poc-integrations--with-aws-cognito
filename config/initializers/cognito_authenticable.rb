@@ -10,7 +10,6 @@ module Devise
           #byebug
           print "*************** CognitoAuthenticatable   ***********************\n"
           begin
-            begin
 
             resp = client.initiate_auth({
                                           client_id: ENV["AWS_COGNITO_CLIENT_ID"],
@@ -21,9 +20,6 @@ module Devise
                                           }
                                         })
 
-          rescue => ex
-            session[:cognito_error_message] = ex.message
-          end
             if resp
 
               print resp
@@ -46,6 +42,9 @@ module Devise
 
               return fail(:unknow_cognito_response)
             end
+          rescue => ex
+            print ex
+            session[:cognito_error_message] = ex.message
 
           rescue Aws::CognitoIdentityProvider::Errors::NotAuthorizedException => e
 
