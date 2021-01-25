@@ -77,9 +77,7 @@ class RegistrationsController < Devise::RegistrationsController
       account_update_params.delete('password')
       account_update_params.delete('password_confirmation')
       account_update_params.delete('current_password')
-
-    end
-
+       end
     if successfully_updated
       set_flash_message :notice, :updated
       sign_in @user, :bypass => true
@@ -88,7 +86,7 @@ class RegistrationsController < Devise::RegistrationsController
       render 'edit'
     end
   end
-
+  end
   private
 
   def needs_password?
