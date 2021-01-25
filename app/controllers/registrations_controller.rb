@@ -3,18 +3,10 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     print "*************** create RegistrationsController  ***********************\n"
 
-
-    print "******************** email *********************************\n"
-    print params[:user][:password]
-    print params[:user][:email]
     build_resource(sign_up_params)
-
-    print "*************** create not saved RegistrationsController  ***********************\n"
-
 
     resource.save
 
-    print "*************** create saved RegistrationsController  ***********************\n"
 
     yield resource if block_given?
     if resource.persisted?
@@ -25,13 +17,11 @@ class RegistrationsController < Devise::RegistrationsController
         client =Aws::CognitoIdentityProvider::Client.new
 
 
-
         newUser = client.sign_up({ client_id: ENV["AWS_COGNITO_CLIENT_ID"] ,
                                                        username: params[:user][:email],
                                                        password: params[:user][:password]
                                                         })
-
-
+        session[:is_new_user] = true
         respond_with resource, location: after_sign_up_path_for(resource)
       else
         set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"

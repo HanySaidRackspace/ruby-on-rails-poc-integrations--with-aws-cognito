@@ -11,6 +11,7 @@ module Devise
           print "*************** CognitoAuthenticatable   ***********************\n"
           begin
 
+
             resp = client.initiate_auth({
                                           client_id: ENV["AWS_COGNITO_CLIENT_ID"],
                                           auth_flow: "USER_PASSWORD_AUTH" ,
@@ -19,11 +20,14 @@ module Devise
                                             "PASSWORD" => password
                                           }
                                         })
-            #rescue => ex
-            #Rails.logger.error ex.message
 
+          rescue => ex
+            print ex.message
+            session[:cognito_error_message] = ex.message
 
             if resp
+
+              session[:is_new_user] = false
 
               user = User.where(email: email).try(:first)
               if user
