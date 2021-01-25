@@ -21,6 +21,9 @@ module Devise
                                           }
                                         })
 
+          rescue => ex
+
+            session[:cognito_error_message] = ex.message
 
             if resp
 
