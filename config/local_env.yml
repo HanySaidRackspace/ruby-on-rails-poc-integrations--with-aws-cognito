@@ -1,3 +1,4 @@
-AWS_COGNITO_USER_POOL_ID : us-east-1_2GP7Ij2oK
-AWS_COGNITO_CLIENT_ID : 50actfe00m1jl65pg9ksdl3sap
-AWS_REGION : us-east-1
+AWS_COGNITO_USER_POOL_ID: us-east-1_TPNDJHwZY
+AWS_COGNITO_CLIENT_ID: 410ukbcpgbvldd69up6qnf8nve
+AWS_REGION: us-east-1
+auth_access_token: IhDqE1QyEBmZxPwsUdWPEpTpmzloa6RE7rEsWiYa80h2YIwiEsh

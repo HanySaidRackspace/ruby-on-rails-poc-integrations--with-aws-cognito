@@ -6,21 +6,20 @@ class UsersController < ApplicationController
   before_action :restrict_access, only: [:aws_auth]
   skip_before_action :verify_authenticity_token
 
-  # (...)
 
-  def aws_auth
+  def user_auth
 
     defaults = {
       id: nil,
-      first_name: nil,
-      last_name: nil,
       email: nil,
+      public_id:88888888,
       authentication_hash: nil
     }
     user = User.where(email: params[:email]).first
 
     if user
       answer = user.as_json(only: defaults.keys)
+      answer[:public_id] = 9999999
       answer[:user_exists] = true
       answer[:success] = user.valid_password?(params[:password])
     else
@@ -35,12 +34,12 @@ class UsersController < ApplicationController
 
   end
 
-  # (...)
 
    private
 
   def restrict_access
-    head :unauthorized unless params[:access_token] =="IhDqE1QyEBmZxPwsUdWPEpTpmzloa6RE7rEsWiYa80h2YIwiEsh"
+    head :unauthorized unless request.headers['accessToken'] == ENV["auth_access_token"]
+
   end
 
 end
