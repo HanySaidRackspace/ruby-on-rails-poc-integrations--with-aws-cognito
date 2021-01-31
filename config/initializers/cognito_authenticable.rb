@@ -21,9 +21,14 @@ module Devise
                                           }
                                         })
 
+
+
             if resp
 
               print resp
+              #session[:cognito_access_token] = resp.authentication_result.access_token
+              #session[:cognito_id_token] = resp.authentication_result.id_token
+              #session[:cognito_refresh_token] = resp.authentication_result.refresh_token
 
               session[:is_new_user] = false
 

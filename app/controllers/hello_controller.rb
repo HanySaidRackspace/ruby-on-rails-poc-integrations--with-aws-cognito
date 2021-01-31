@@ -10,6 +10,7 @@ def index
     @accountStatus =  'new user'
   else
     @accountStatus = 'Confirmed'
+
   end
   @greeting = "Index action says: Hello !"
    @user = current_user
